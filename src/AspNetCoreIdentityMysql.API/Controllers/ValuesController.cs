@@ -7,13 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace AspNetCoreIdentityMysql.API.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController : BaseController
     {
         // GET api/values
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return Response(new string[] { "value1", "value2" });           
         }
 
         // GET api/values/5

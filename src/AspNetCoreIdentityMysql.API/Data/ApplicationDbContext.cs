@@ -16,8 +16,7 @@ namespace AspNetCoreIdentityMysql.API.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
-            //modelBuilder.Configurations.Add(new UsuarioConfig());
+                        
             builder.ApplyConfiguration(new UsuarioConfig());
 
             base.OnModelCreating(builder);

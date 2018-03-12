@@ -7,6 +7,7 @@ using AspNetCoreIdentityMysql.API.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,9 +32,6 @@ namespace AspNetCoreIdentityMysql.API
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseMySql(strConexao));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-              .AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddDefaultTokenProviders();
 
             //CONFIGURAÇÕES DO IDENTITY            
             services.Configure<IdentityOptions>(options =>
@@ -51,13 +49,29 @@ namespace AspNetCoreIdentityMysql.API
 
             });
 
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                // Signin settings
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                //CONFIG DO USUARIO
+                options.User.RequireUniqueEmail = true;
+            })
+             .AddEntityFrameworkStores<ApplicationDbContext>()
+             .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+
+            });
 
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+           {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
